@@ -15,11 +15,13 @@
 PImage gamebg;
 PImage yui;
 PImage bullet;
-PImage aylmao;
-PImage aylmao2;
-PIamge aylmao3;
-PImage aylmao4;
-PImage aylmao5;
+PImage aylmao[] = new PImage[2];
+PImage aylmao2[] = new PImage[2];
+PImage aylmao3[] = new PImage[2];
+PImage aylmao4[] = new PImage[2];
+PImage aylmao5[] = new PImage[2];
+PImage pant[] = new PImage[4];
+PImage explosion[] = new PImage [12];
 //Fonts
 PFont pixie;
 
@@ -43,6 +45,10 @@ int lmaomoved4;
 //fifth alien
 int lmaomove5;
 int lmaomoved5;
+
+//human
+int pantX;
+int pantY;
 
 int changeD;
 int changeD2;
@@ -69,20 +75,129 @@ int dPlayer;
 //sound
 int sPlay;
 
+//animation
+int n;
+int time;
+int time2;
+int time3;
+int time4;
+int time5;
+
+int bgy;
+
+//size
+int awidth;
+int aheight; 
+
+//move
+int moveX;
+int moveY;
+int move2X;
+int move2Y;
+int move3X;
+int move3Y;
+int move4X;
+int move4Y;
+int move5X;
+int move5Y;
+
 void setup()
 {
 size(1500, 980);
 frameRate(60);
 
 //Loaded Images
-gamebg = loadImage("gamephotos/realbg.png");
+gamebg = loadImage("gamephotos/starshit.png");
 yui = loadImage("gamephotos/yryryui.png");
 bullet = loadImage("gamephotos/pew.png");
-aylmao = loadImage("gamephotos/BG3.png");
-aylmao2 = loadImage("gamephotos/BG3.png");
-aylmao3 = loadImage("gamephotos/BG3.png");
-aylmao4 = loadImage("gamephotos/BG3.png");
-aylmao5 = loadImage("gamephotos/BG3.png");
+
+aylmao[1] = loadImage("gamephotos/BG11.png");
+aylmao[2] = loadImage("gamephotos/BG12.png");
+
+aylmao2[1] = loadImage("gamephotos/BG11.png");
+aylmao2[2] = loadImage("gamephotos/BG12.png");
+
+aylmao3[1] = loadImage("gamephotos/BG11.png");
+aylmao3[2] = loadImage("gamephotos/BG12.png");
+
+aylmao4[1] = loadImage("gamephotos/BG11.png");
+aylmao4[2] = loadImage("gamephotos/BG12.png");
+
+aylmao5[1] = loadImage("gamephotos/BG11.png");
+aylmao5[2] = loadImage("gamephotos/BG12.png");
+
+e = 1;
+while (e <= 12)
+{
+	explosion[e] = loadImage("explosion/explosion"+e+".png")
+	e = e + 1;
+}
+time = 0;
+time2 = 0;
+time3 = 0;
+time4 = 0;
+time5 = 0;
+
+pant[1] = loadImage("pant/pant1.png");
+pant[2] = loadImage("pant/pant2.png");
+pant[3] = loadImage("pant/pant3.png");
+pant[4] = loadImage("pant/pant4.png");
+
+n = 1;
+while (n <= 4)
+{
+pant[n] = loadImage("pant/pant"+n+".png");
+n = n + 1;
+}
+
+q = 1;
+while (q <= 3)
+{
+aylmao[q] = loadImage("gamephotos/BG1"+q+".png");
+q = q + 1;
+}
+
+r = 1;
+while (r <= 2)
+{
+aylmao2[r] = loadImage("gamephotos/BG1"+r+".png");
+r = r + 1;
+}
+
+s = 1;
+while (s <= 2)
+{
+aylmao3[s] = loadImage("gamephotos/BG1"+s+".png");
+s = s + 1;
+}
+
+t = 1;
+while (t <= 2)
+{
+aylmao4[t] = loadImage("gamephotos/BG1"+t+".png");
+t = t + 1;
+}
+
+u = 1;
+while (u <= 2)
+{
+aylmao5[u] = loadImage("gamephotos/BG1"+u+".png");
+u = u + 1;
+
+lmaomove = 0;
+lmaomoved = 0;
+
+moveX = 2;
+moveY = 2;
+move2X = 2;
+move2Y = 2;
+move3X = 2;
+move3Y = 2;
+move4X = 2;
+move4Y = 2;
+move5X = 2;
+move5Y = 2;
+}
 
 //Fonts
 pixie = loadFont("04b");
@@ -125,6 +240,10 @@ lmaomoved5 = 52;
 
 sPlay = 0;
 
+//fucking size
+aw = 150
+ah = 100
+bgy = 0;
 }
 
 void draw()
@@ -132,6 +251,7 @@ void draw()
 
 background(0, 0, 0);
 frameRate(60);
+
 
 if(mousePressed == true && mouseButton == RIGHT) 
 {
@@ -144,7 +264,7 @@ if(mousePressed == true && mouseButton == RIGHT)
 
 
 
-image(gamebg,0,0,1575,1000);
+image(gamebg,0,bgy,1575,5000);
 
 
 if(start == 1)
@@ -152,38 +272,95 @@ if(start == 1)
 image(bullet,xOfPlayer  + 50,yOfBullet,15,30);
 
 image(yui,xOfPlayer,800,120,100);
+
+bgy = bgy - 0.5;
+
+text(time,250,100);
+time = time + 1
+}
+
+pantX = 1400;
+pantY = 550;
+
+if(time >= 0 && time <= 10)
+{
+	image(pant[1],pantX,pantY,100,100);
+}
+if(time >= 10 && time <= 20)
+{
+	image(pant[2],pantX,pantY,100,100);
+}
+if(time >= 20 && time <= 30)
+{
+	image(pant[3],pantX,pantY,100,100);
+}
+if(time >= 30 && time <= 40)
+{
+	image(pant[4],pantX,pantY,100,100);
 }
 
 if (gtfo == 1)
 {
 
 	
-fill(0,0,0);
+fill(255,0,0);
 ellipse(lmaomove,lmaomoved,100,100);
-image(aylmao,lmaomove-65,lmaomoved-47,130,100);
-
-
-	if(changeD == 0)
+if(time >= 0 && time <= 20)
 	{
-	lmaomove = lmaomove + 5;
-	lmaomoved = lmaomoved + .15;
+		image(aylmao[1],lmaomove-75,lmaomoved-50,aw,ah);
+	}
+if(time >= 20 && time <= 40)
+	{
+		image(aylmao[2],lmaomove-75, lmaomoved-50,aw,ah);
+	}
+if(changeD == 0)
+	{
+	lmaomove = lmaomove + 3;
 	}
 
 
-		if(lmaomove > 300 )
-		{
-		changeD = 1;
-		}
+	if(lmaomove > 1200 && changeD == 0)
+	{
+		changeD = 1;		
+	}
 
-		if(lmaomove < 50)
-		{
-		changeD = 0;
-		}
+
+	if(lmaomoved > 300 && changeD == 1)
+	{
+		changeD = 2;
+	}
+	
+	if(lmaomove < 50)
+	{
+		changeD = 3;
+	}
+	
+	if(lmaomoved > 600)
+	{
+		changeD = 4;
+	}
 
 	if(changeD == 1)
 	{
-	lmaomove = lmaomove - 5;
-	lmaomoved = lmaomoved + .15;
+		lmaomoved = lmaomoved + 3;
+	}
+	if(changeD == 2)
+	{
+		lmaomove = lmaomove - 3;
+	}
+	if(changeD == 3)
+	{
+		lmaomoved = lmaomoved + 3;
+	}	
+	if(changeD == 4)
+	{
+		lmaomove = lmaomove + 3;
+	}
+	
+	if (time == 40)
+	{
+		time = 0;
+		
 	}
 }
 
@@ -192,31 +369,64 @@ if(gtfo2 == 1)
 
 fill(0,0,0);
 ellipse(lmaomove2,lmaomoved2,100,100);
-image(aylmao2,lmaomove2-65,lmaomoved2-47,130,100);
 
-
+if(time >= 0 && time <= 20)
+	{
+		image(aylmao2[1],lmaomove2-75,lmaomoved2-50,aw,ah);
+		
+	}
+	
+	if(time >= 20 && time <= 40)
+	{
+		image(aylmao2[2],lmaomove2-75,lmaomoved2-50,aw,ah);
+	}
 	if(changeD2 == 0)
 	{
-	lmaomove2 = lmaomove2 + 5;
-	lmaomoved2 = lmaomoved2 + .15;
+	lmaomove2 = lmaomove2 + 3;
+	}
+	if(lmaomove2 > 1200 && changeD2 == 0)
+	{
+		changeD2 = 1;		
 	}
 
 
-		if(lmaomove2 > 500)
-		{
-		changeD2 = 1;
-		}
-
-		if(lmaomove2 < 250)
-		{
-		changeD2 = 0;
-		}
+	if(lmaomoved2 > 300 && changeD2 == 1)
+	{
+		changeD2 = 2;
+	}
+	
+	if(lmaomove2 < 50)
+	{
+		changeD2 = 3;
+	}
+	
+	if(lmaomoved2 > 600)
+	{
+		changeD2 = 4;
+	}
 
 	if(changeD2 == 1)
 	{
-	lmaomove2 = lmaomove2 - 5;
-	lmaomoved2 = lmaomoved2 + .15;
+		lmaomoved2 = lmaomoved2 + 3;
 	}
+	if(changeD2 == 2)
+	{
+		lmaomove2 = lmaomove2 - 3;
+	}
+	if(changeD2 == 3)
+	{
+		lmaomoved2 = lmaomoved2 + 3;
+	}	
+	if(changeD2 == 4)
+	{
+		lmaomove2 = lmaomove2 + 3;
+	}
+	if (time2 == 40)
+	{
+		time2 = 0;
+		
+	}
+	
 }
 
 if(gtfo3 == 1)
@@ -224,30 +434,62 @@ if(gtfo3 == 1)
 
 fill(0,0,0);
 ellipse(lmaomove3,lmaomoved3,100,100);
-image(aylmao3,lmaomove3-65,lmaomoved3-47,130,100);
 
-
+if(time >= 0 && time <= 20)
+	{
+		image(aylmao3[1],lmaomove3-75,lmaomoved3-50,aw,ah);
+		
+	}
+	
+	if(time >= 20 && time <= 40)
+	{
+		image(aylmao3[2],lmaomove3-75,lmaomoved3-50,aw,ah);
+	}
 	if(changeD3 == 0)
 	{
-	lmaomove3 = lmaomove3 + 5;
-	lmaomoved3 = lmaomoved3 + .15;
+	lmaomove3 = lmaomove3 + 3;
+	}
+	if(lmaomove3 > 1200 && changeD3 == 0)
+	{
+		changeD3 = 1;		
 	}
 
 
-		if(lmaomove3 > 700)
-		{
-		changeD3 = 1;
-		}
-
-		if(lmaomove3 < 450)
-		{
-		changeD3 = 0;
-		}
+	if(lmaomoved3 > 300 && changeD3 == 1)
+	{
+		changeD3 = 2;
+	}
+	
+	if(lmaomove3 < 50)
+	{
+		changeD3 = 3;
+	}
+	
+	if(lmaomoved3 > 600)
+	{
+		changeD3 = 4;
+	}
 
 	if(changeD3 == 1)
 	{
-	lmaomove3 = lmaomove3 - 5;
-	lmaomoved3 = lmaomoved3 + .15;
+		lmaomoved3 = lmaomoved3 + 3;
+	}
+	if(changeD3 == 2)
+	{
+		lmaomove3 = lmaomove3 - 3;
+	}
+	if(changeD3 == 3)
+	{
+		lmaomoved3 = lmaomoved3 + 3;
+	}	
+	if(changeD3 == 4)
+	{
+		lmaomove3 = lmaomove3 + 3;
+	}
+		if (time3 == 40)
+	{
+		time3 = 0;
+		
 	}
 }
 
@@ -256,30 +498,63 @@ if(gtfo4 == 1)
 
 fill(0,0,0);
 ellipse(lmaomove4,lmaomoved4,100,100);
-image(aylmao4,lmaomove4-65,lmaomoved4-47,130,100);
 
-
-	if(changeD4 == 0)
+if(time >= 0 && time <= 20)
 	{
-	lmaomove4 = lmaomove4 + 5;
-	lmaomoved4 = lmaomoved4 + .15;
+		image(aylmao4[1],lmaomove4-75,lmaomoved4-50,aw,ah);
+		
+	}
+	
+	if(time >= 20 && time <= 40)
+	{
+		image(aylmao4[2],lmaomove4-75,lmaomoved4-50,aw,ah);
+	}
+
+if(changeD4 == 0)
+	{
+	lmaomove4 = lmaomove4 + 3;
+	}
+	if(lmaomove4 > 1200 && changeD4 == 0)
+	{
+		changeD4 = 1;		
 	}
 
 
-		if(lmaomove4 > 900)
-		{
-		changeD4 = 1;
-		}
-
-		if(lmaomove4 < 650)
-		{
-		changeD4 = 0;
-		}
+	if(lmaomoved4 > 300 && changeD4 == 1)
+	{
+		changeD4 = 2;
+	}
+	
+	if(lmaomove4 < 50)
+	{
+		changeD4 = 3;
+	}
+	
+	if(lmaomoved4 > 600)
+	{
+		changeD4 = 4;
+	}
 
 	if(changeD4 == 1)
 	{
-	lmaomove4 = lmaomove4 - 5;
-	lmaomoved4 = lmaomoved4 + .15;
+		lmaomoved4 = lmaomoved4 + 3;
+	}
+	if(changeD4 == 2)
+	{
+		lmaomove4 = lmaomove4 - 3;
+	}
+	if(changeD4 == 3)
+	{
+		lmaomoved4 = lmaomoved4 + 3;
+	}	
+	if(changeD4 == 4)
+	{
+		lmaomove4 = lmaomove4 + 3;
+	}
+		if (time4 == 40)
+	{
+		time4 = 0;
+		
 	}
 }
 
@@ -288,30 +563,64 @@ if(gtfo5 == 1)
 
 fill(0,0,0);
 ellipse(lmaomove5,lmaomoved5,100,100);
-image(aylmao5,lmaomove5-65,lmaomoved5-47,130,100);
 
-
-	if(changeD5 == 0)
+	if(time >= 0 && time <= 20)
 	{
-	lmaomove5 = lmaomove5 + 5;
-	lmaomoved5 = lmaomoved5 + .15;
+		image(aylmao5[1],lmaomove5-75,lmaomoved5-50,aw,ah);
+		
+	}
+	
+	if(time >= 20 && time <= 40)
+	{
+		image(aylmao5[2],lmaomove5-75,lmaomoved5-50,aw,ah);
+	}
+
+if(changeD5 == 0)
+	{
+	lmaomove5 = lmaomove5 + 3;
+	}
+	if(lmaomove5 > 1200 && changeD5 == 0)
+	{
+		changeD5 = 1;		
 	}
 
 
-		if(lmaomove5 > 1100)
-		{
-		changeD5 = 1;
-		}
-
-		if(lmaomove5 < 850)
-		{
-		changeD5 = 0;
-		}
+	if(lmaomoved5 > 300 && changeD5 == 1)
+	{
+		changeD5 = 2;
+	}
+	
+	if(lmaomove5 < 50)
+	{
+		changeD5 = 3;
+	}
+	
+	if(lmaomoved5 > 600)
+	{
+		changeD5 = 4;
+	}
 
 	if(changeD5 == 1)
 	{
-	lmaomove5 = lmaomove5 - 5;
-	lmaomoved5 = lmaomoved5 + .15;
+		lmaomoved5 = lmaomoved5 + 3;
+	}
+	if(changeD5 == 2)
+	{
+		lmaomove5 = lmaomove5 - 3;
+	}
+	if(changeD5 == 3)
+	{
+		lmaomoved5 = lmaomoved5 + 3;
+	}	
+	if(changeD5 == 4)
+	{
+		lmaomove5 = lmaomove5 + 3;
+	}
+	
+		if (time5 == 40)
+	{
+		time5 = 0;
+		
 	}
 }
 
@@ -355,35 +664,290 @@ text(dAlien3-dAlien,1400,200);
  {
  gtfo = 0;
  bulletMove = 0;
- 
+ 	{
+ 		if(time >= 0 && time <= 10)
+ 		{
+ 			image(explosion[1],lmaomove,lmaomoved);
+ 		}
+ 		if(time >= 10 && time <= 20)
+ 		{
+ 			image(explosion[2],lmaomove,lmaomoved);
+ 		}
+ 		if(time >= 20 && time <= 30)
+ 		{
+ 			image(explosion[3],lmaomove,lmaomoved);
+ 		}
+ 		if(time >= 30 && time <= 40)
+ 		{
+ 			image(explosion[4],lmaomove,lmaomoved);
+ 		}
+ 		if(time >= 40 && time <= 50)
+ 		{
+ 			image(explosion[5],lmaomove,lmaomoved);
+ 		}
+ 		if(time >= 50 && time <= 60)
+ 		{
+ 			image(explosion[6],lmaomove,lmaomoved);
+ 		}
+ 		if(time >= 60 && time <= 70)
+ 		{
+ 			image(explosion[7],lmaomove,lmaomoved);
+ 		}
+ 		if(time >= 70 && time <= 80)
+ 		{
+ 			image(explosion[8],lmaomove,lmaomoved);
+ 		}
+ 		if(time >= 80 && time <= 90)
+ 		{
+ 			image(explosion[9],lmaomove,lmaomoved);
+ 		}
+ 		if(time >= 90 && time <= 100)
+ 		{
+ 			image(explosion[10],lmaomove,lmaomove);
+ 		}
+ 		if(time >= 100 && time <= 110)
+ 		{
+ 			image(explosion[11],lmaomove,lmaomoved);
+ 		}
+ 		if(time >= 110 && time <= 120)
+ 		{
+ 			image(explosion[12],lmaomove,lmaomoved);
+ 		}
+ 		text(time,250,100);
+ 		time = time + 1;
+ 	}
  }
  
  if (dAlien2 < 100)
  {
  gtfo2 = 0;
  bulletMove = 0;
- 
+ 	{
+ 		if(time2 >= 0 && time2 <= 10)
+ 		{
+ 			image(explosion[1],lmaomove2,lmaomoved2);
+ 		}
+ 		if(time2 >= 10 && time2 <= 20)
+ 		{
+ 			image(explosion[2],lmaomove2,lmaomoved2);
+ 		}
+ 		if(time2 >= 20 && time2 <= 30)
+ 		{
+ 			image(explosion[3],lmaomove2,lmaomoved2);
+ 		}
+ 		if(time2 >= 30 && time2 <= 40)
+ 		{
+ 			image(explosion[4],lmaomove2,lmaomoved2);
+ 		}
+ 		if(time2 >= 40 && time2 <= 50)
+ 		{
+ 			image(explosion[5],lmaomove2,lmaomoved2);
+ 		}
+ 		if(time2 >= 50 && time2 <= 60)
+ 		{
+ 			image(explosion[6],lmaomove2,lmaomoved2);
+ 		}
+ 		if(time2 >= 60 && time2 <= 70)
+ 		{
+ 			image(explosion[7],lmaomove2,lmaomoved2);
+ 		}
+ 		if(time2 >= 70 && time2 <= 80)
+ 		{
+ 			image(explosion[8],lmaomove2,lmaomoved2);
+ 		}
+ 		if(time2 >= 80 && time2 <= 90)
+ 		{
+ 			image(explosion[9],lmaomove2,lmaomoved2);
+ 		}
+ 		if(time2 >= 90 && time2 <= 100)
+ 		{
+ 			image(explosion[10],lmaomove2,lmaomoved2);
+ 		}
+ 		if(time2 >= 100 && time2 <= 110)
+ 		{
+ 			image(explosion[11],lmaomove2,lmaomoved2);
+ 		}
+ 		if(time2 >= 110 && time2 <= 120)
+ 		{
+ 			image(explosion[12],lmaomove2,lmaomoved2);
+ 		}
+ 		text(time2,250,100);
+ 		time2 = time2 + 1;
+ 	}
  }
  
   if (dAlien3 < 100)
  {
  gtfo3 = 0;
  bulletMove = 0;
- 
+ 	{
+ 		if(time3 >= 0 && time3 <= 10)
+ 		{
+ 			image(explosion[1],lmaomove3,lmaomoved3);
+ 		}
+ 		if(time3 >= 10 && time3 <= 20)
+ 		{
+ 			image(explosion[2],lmaomove3,lmaomoved3);
+ 		}
+ 		if(time3 >= 20 && time3 <= 30)
+ 		{
+ 			image(explosion[3],lmaomove3,lmaomoved3);
+ 		}
+ 		if(time3 >= 30 && time3 <= 40)
+ 		{
+ 			image(explosion[4],lmaomove3,lmaomoved3);
+ 		}
+ 		if(time3 >= 40 && time3 <= 50)
+ 		{
+ 			image(explosion[5],lmaomove3,lmaomoved3);
+ 		}
+ 		if(time3 >= 50 && time3 <= 60)
+ 		{
+ 			image(explosion[6],lmaomove3,lmaomoved3);
+ 		}
+ 		if(time3 >= 60 && time3 <= 70)
+ 		{
+ 			image(explosion[7],lmaomove3,lmaomoved3);
+ 		}
+ 		if(time3 >= 70 && time3 <= 80)
+ 		{
+ 			image(explosion[8],lmaomove3,lmaomoved3);
+ 		}
+ 		if(time3 >= 80 && time3 <= 90)
+ 		{
+ 			image(explosion[9],lmaomove3,lmaomoved3);
+ 		}
+ 		if(time3 >= 90 && time3 <= 100)
+ 		{
+ 			image(explosion[10],lmaomove3,lmaomoved3);
+ 		}
+ 		if(time3 >= 100 && time3 <= 110)
+ 		{
+ 			image(explosion[11],lmaomove3,lmaomoved3);
+ 		}
+ 		if(time3 >= 110 && time3 <= 120)
+ 		{
+ 			image(explosion[12],lmaomove3,lmaomoved3);
+ 		}
+ 		text(time3,250,100);
+ 		time3 = time3 + 1;
+ 	}
  }
  
  if (dAlien4 < 100)
  {
  gtfo4 = 0;
  bulletMove = 0;
- 
+ 	{
+ 		if(time4 >= 0 && time4 <= 10)
+ 		{
+ 			image(explosion[1],lmaomove4,lmaomoved4);
+ 		}
+ 		if(time4 >= 10 && time4 <= 20)
+ 		{
+ 			image(explosion[2],lmaomove4,lmaomoved4);
+ 		}
+ 		if(time4 >= 20 && time4 <= 30)
+ 		{
+ 			image(explosion[3],lmaomove4,lmaomoved4);
+ 		}
+ 		if(time4 >= 30 && time4 <= 40)
+ 		{
+ 			image(explosion[4],lmaomove4,lmaomoved4);
+ 		}
+ 		if(time4 >= 40 && time4 <= 50)
+ 		{
+ 			image(explosion[5],lmaomove4,lmaomoved4);
+ 		}
+ 		if(time4 >= 50 && time4 <= 60)
+ 		{
+ 			image(explosion[6],lmaomove4,lmaomoved4);
+ 		}
+ 		if(time4 >= 60 && time4 <= 70)
+ 		{
+ 			image(explosion[7],lmaomove4,lmaomoved4);
+ 		}
+ 		if(time4 >= 70 && time4 <= 80)
+ 		{
+ 			image(explosion[8],lmaomove4,lmaomoved4);
+ 		}
+ 		if(time4 >= 80 && time4 <= 90)
+ 		{
+ 			image(explosion[9],lmaomove4,lmaomoved4);
+ 		}
+ 		if(time4 >= 90 && time4 <= 100)
+ 		{
+ 			image(explosion[10],lmaomove4,lmaomoved4);
+ 		}
+ 		if(time4 >= 100 && time4 <= 110)
+ 		{
+ 			image(explosion[11],lmaomove4,lmaomoved4);
+ 		}
+ 		if(time4 >= 110 && time4 <= 120)
+ 		{
+ 			image(explosion[12],lmaomove4,lmaomoved4);
+ 		}
+ 		text(time4,250,100);
+ 		time4 = time4 + 1;
+ 	}
  }
  
   if (dAlien5 < 100)
  {
  gtfo5 = 0;
  bulletMove = 0;
- 
+ 	{
+ 		if(time5 >= 0 && time5 <= 10)
+ 		{
+ 			image(explosion[1],lmaomove5,lmaomoved5);
+ 		}
+ 		if(time5 >= 10 && time5 <= 20)
+ 		{
+ 			image(explosion[2],lmaomove5,lmaomoved5);
+ 		}
+ 		if(time5 >= 20 && time5 <= 30)
+ 		{
+ 			image(explosion[3],lmaomove5,lmaomoved5);
+ 		}
+ 		if(time5 >= 30 && time5 <= 40)
+ 		{
+ 			image(explosion[4],lmaomove5,lmaomoved5);
+ 		}
+ 		if(time5 >= 40 && time5 <= 50)
+ 		{
+ 			image(explosion[5],lmaomove5,lmaomoved5);
+ 		}
+ 		if(time5 >= 50 && time5 <= 60)
+ 		{
+ 			image(explosion[6],lmaomove5,lmaomoved5);
+ 		}
+ 		if(time5 >= 60 && time5 <= 70)
+ 		{
+ 			image(explosion[7],lmaomove5,lmaomoved5);
+ 		}
+ 		if(time5 >= 70 && time5 <= 80)
+ 		{
+ 			image(explosion[8],lmaomove5,lmaomoved5);
+ 		}
+ 		if(time5 >= 80 && time5 <= 90)
+ 		{
+ 			image(explosion[9],lmaomove5,lmaomoved5);
+ 		}
+ 		if(time5 >= 90 && time5 <= 100)
+ 		{
+ 			image(explosion[10],lmaomove5,lmaomoved5);
+ 		}
+ 		if(time5 >= 100 && time5 <= 110)
+ 		{
+ 			image(explosion[11],lmaomove5,lmaomoved5);
+ 		}
+ 		if(time5 >= 110 && time5 <= 120)
+ 		{
+ 			image(explosion[12],lmaomove5,lmaomoved5);
+ 		}
+ 		text(time5,250,100);
+ 		time5 = time5 + 1;
+ 	}
  }
  
  if(dPlayer < 100)
@@ -391,6 +955,27 @@ text(dAlien3-dAlien,1400,200);
  gtfo = 0;
  start = 0;
  }
+
+if(lmaomove > 1350)
+{
+	gtfo= 0;
+}
+if(lmaomove2 > 1350)
+{
+	gtfo2 = 0;
+}
+if(lmaomove3 > 1350)
+{
+	gtfo3 = 0;
+}
+if(lmaomove4 > 1350)
+{
+	gtfo4 = 0;
+}
+if(lmaomove5 > 1350)
+{
+	gtfo5 = 0;
+}
 
 }
 
@@ -422,6 +1007,11 @@ void keyPressed()
 	gtfo4 = 1;
 	gtfo5 = 1;
 	start = 1;
+	time = 1;
+	time2 = 1;
+	time3 = 1;
+	time4 = 1;
+	time5 = 1;
 	
 	}
 	
@@ -433,3 +1023,4 @@ void keyPressed()
 	</script>
 	<canvas id="mycanvas"></canvas>
 </center>
+
